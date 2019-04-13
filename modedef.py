@@ -19,7 +19,6 @@ log2 = open("/tmp/svxlink.log", "rt")
 delay=9999999
 for x in log2:
  if ( (x.find("The squelch is OPEN")>-1)or(x.find("Activating link")>-1) ):
-  print(x)
   dti=x.find(": ")
   dt=x[:dti]
   dt= datetime.datetime.strptime(dt,"%a %b %d %H:%M:%S %Y")
@@ -27,9 +26,7 @@ for x in log2:
   if (delay>dt.total_seconds()):
    delay=int(dt.total_seconds())
 if (delay==9999999):
- print("exit 99999")
  exit()
-print(delay)
 if (delay>(timeout*60)):
  print("restart "+ str(delay))
  os.system("/etc/spotnik/restart." + str(default)) 
