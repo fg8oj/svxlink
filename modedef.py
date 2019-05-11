@@ -5,8 +5,8 @@
 # Cron :
 # * * * * * python /etc/spotnik/modedef.py > /dev/null 2>&1
 # Configuration :
-default="971" # appel du fichier restart /etc/spotnik/restart.XXX
-timeout=60 # durée en minute avant le rebasculement sur le salon par défault
+default="rrf" # appel du fichier restart /etc/spotnik/restart.XXX
+timeout=30 # durée en minute avant le rebasculement sur le salon par défault
 #
 #
 import datetime
@@ -25,10 +25,10 @@ for x in log2:
   dt=datetime.datetime.now() - dt
   if (delay>dt.total_seconds()):
    delay=int(dt.total_seconds())
+print(delay)
 if (delay==9999999):
  exit()
 if (delay>(timeout*60)):
  print("restart "+ str(delay))
  os.system("/etc/spotnik/restart." + str(default)) 
 log.close()
- 
