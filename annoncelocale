@@ -1,0 +1,46 @@
+
+
+crontab : 
+============================================
+33 * * * * /etc/spotnik/annoncelocale.sh  > /dev/null 2> /dev/null
+============================================
+
+
+nano /usr/share/svxlink/events.d/local/Logic.tcl 
+=================== REPLACE ================
+  # Speak network IPs
+#  if {$cmd == "93"} {
+#    sayIP
+#    return 1
+#  }
+============================================
+if {$cmd == "93"} {
+    puts "Annonce vocale RC Guadeloupe"
+    playMsg "Core" "annoncelocale"
+    return 1
+ }
+============================================
+
+
+nano /etc/spotnik/annoncelocale.sh
+============================================
+#!/bin/bash
+if grep -q 0 /sys/class/gpio/gpio7/value; then
+        wget -q "https://radioamateur.gp/annoncelocale.php?audio=1" -O /etc/spotnik/annoncelocale.wav
+        if [ -s /etc/spotnik/annoncelocale.wav ]
+         then
+                echo "A" >/tmp/svxlink_dtmf_ctrl_pty
+                sleep 3
+                echo "93#" > /tmp/svxlink_dtmf_ctrl_pty
+        fi
+fi
+============================================
+chmod +x /etc/spotnik/annoncelocale.sh
+ln -s /etc/spotnik/annoncelocale.wav /usr/share/svxlink/sounds/fr_FR/Default
+
+
+Test :
+Restart svxlink
+/etc/spotnik/restart.971
+/etc/spotnik/annoncelocale.sh
+
