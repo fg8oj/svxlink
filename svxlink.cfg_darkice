@@ -1,0 +1,13 @@
+[TxStream]
+TYPE=Local
+AUDIO_DEV=alsa:hw:Loopback,0,2
+AUDIO_CHANNEL=1
+PTT_TYPE=NONE
+TIMEOUT=7200
+TX_DELAY=0
+PREEMPHASIS=0
+
+[SimplexLogic]
+TYPE=Simplex
+RX=Rx1
+TX=TxStream
